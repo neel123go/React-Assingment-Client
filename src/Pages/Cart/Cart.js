@@ -5,34 +5,43 @@ export const Cart = () => {
     const [products, setProducts] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState();
     const [selectedSize, setSelectedSize] = useState();
+    const [searchKeyWord, setSearchKeyWord] = useState('');
 
+    // fetching all products
     useEffect(() => {
         fetch('http://localhost:5000/items')
             .then(res => res.json())
-            .then(data => setProducts(data));
-    }, [products, selectedCategory, selectedSize]);
+            .then(data => {
+                setProducts(data);
+                if (searchKeyWord !== '') {
+                    const filteredData = products.filter(product => product?.name.toLowerCase().includes(searchKeyWord.toLowerCase()));
+                    setProducts(filteredData);
+                }
+            });
+    }, [products, selectedCategory, selectedSize, searchKeyWord]);
 
     function getFilteredProduct() {
         if (!selectedSize && !selectedCategory) {
             return products;
         } else if (selectedSize && selectedCategory) {
-            return products.filter((product) => (product?.category === selectedCategory ? product?.category === selectedCategory : selectedCategory === '') && (product?.size === selectedSize ? product?.size === selectedSize : selectedSize === ''));
+            return products.filter((product) => (product?.category === selectedCategory) && (product?.size === selectedSize));
         } else {
-            return products.filter((product) => (product?.category === selectedCategory ? product?.category === selectedCategory : selectedCategory === '') || (product?.size === selectedSize ? product?.size === selectedSize : selectedSize === ''));
+            return products.filter((product) => (product?.category === selectedCategory) || (product?.size === selectedSize));
         }
     }
 
-    // let filteredList = useMemo(getFilteredProduct, [selectedCategory, products]);
     let filteredList = useMemo(getFilteredProduct, [selectedCategory, selectedSize, products]);
 
     function handleCategoryChange(event) {
         setSelectedCategory(event.target.value);
-        console.log(event.target.value)
     }
 
     function handleSizeChange(event) {
         setSelectedSize(event.target.value);
-        console.log(event.target.value)
+    }
+
+    function handleSearchKeyWord(event) {
+        setSearchKeyWord(event.target.value);
     }
 
     return (
@@ -69,7 +78,7 @@ export const Cart = () => {
                 <div className='justify-end'>
                     <div className="flex justify-center items-center">
                         <span className='text-neutral mr-2 text-xl'>Search: </span>
-                        <input type="text" className="px-2 py-3 border-none outline-none bg-zinc-300" />
+                        <input type="text" onChange={handleSearchKeyWord} className="px-2 py-3 border-none outline-none bg-zinc-300" />
                     </div>
                     <button className="btn btn-primary rounded-none ml-3 text-base-100 font-bold w-40 h-10">Add To Cart</button>
                 </div>
