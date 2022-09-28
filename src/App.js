@@ -1,7 +1,14 @@
+import { Route, Routes } from "react-router-dom";
+import { Cart } from "./Pages/Cart/Cart";
+import { Checkout } from "./Pages/Checkout/Checkout";
+
 function App() {
   return (
     <div>
-      <h1>Hello World</h1>
+      <Routes>
+        <Route path="/" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+      </Routes>
     </div>
   );
 }
