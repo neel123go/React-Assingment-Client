@@ -25,9 +25,9 @@ export const CartItem = ({ product, setCartProduct, cartProduct, setTotalPrice }
         })
             .then(res => res.json())
             .then(data => {
-                console.log('Data Updated')
-            })
-    }
+                // console.log('Quantity Updated Successfully')
+            });
+    };
 
     const decrementQty = (id) => {
         setCartProduct(cartProduct =>
@@ -45,14 +45,27 @@ export const CartItem = ({ product, setCartProduct, cartProduct, setTotalPrice }
         })
             .then(res => res.json())
             .then(data => {
-                console.log('Data Updated')
+                // console.log('Quantity Updated Successfully')
+            });
+    };
+
+    const handleDeleteButton = (id) => {
+        fetch(`http://localhost:5000/cart/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json',
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                // console.log('Deleted Successfully');
             })
-    }
+    };
 
     return (
         <tr>
             <td>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                <svg onClick={() => handleDeleteButton(product?._id)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 cursor-pointer">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </td>

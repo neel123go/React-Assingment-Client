@@ -27,7 +27,7 @@ export const Checkout = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {cartProduct?.map(product => <CartItem setTotalPrice={setTotalPrice} cartProduct={cartProduct} setCartProduct={setCartProduct} product={product} />)}
+                            {cartProduct?.map(product => <CartItem key={product?._id} setTotalPrice={setTotalPrice} cartProduct={cartProduct} setCartProduct={setCartProduct} product={product} />)}
                         </tbody>
                     </table>
                 </div>
