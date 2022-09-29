@@ -16,7 +16,7 @@ export const CartItem = ({ product, setCartProduct, cartProduct, setTotalPrice }
             )
         );
 
-        fetch(`http://localhost:5000/cart/${id}`, {
+        fetch(`https://react-assignment.onrender.com/cart/${id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json'
@@ -36,7 +36,7 @@ export const CartItem = ({ product, setCartProduct, cartProduct, setTotalPrice }
             )
         );
 
-        fetch(`http://localhost:5000/cart/${id}`, {
+        fetch(`https://react-assignment.onrender.com/cart/${id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json'
@@ -50,7 +50,7 @@ export const CartItem = ({ product, setCartProduct, cartProduct, setTotalPrice }
     };
 
     const handleDeleteButton = (id) => {
-        fetch(`http://localhost:5000/cart/${id}`, {
+        fetch(`https://react-assignment.onrender.com/cart/${id}`, {
             method: 'DELETE',
             headers: {
                 'content-type': 'application/json',

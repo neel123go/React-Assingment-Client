@@ -11,7 +11,7 @@ export const Cart = () => {
 
     // fetch products
     useEffect(() => {
-        fetch('http://localhost:5000/items')
+        fetch('https://react-assignment.onrender.com/items')
             .then(res => res.json())
             .then(data => {
                 setProducts(data);
@@ -58,7 +58,7 @@ export const Cart = () => {
     // handle add to cart button
     const handleCart = () => {
         selectedCart.map(product => (
-            fetch(`http://localhost:5000/items/${product?.id}`)
+            fetch(`https://react-assignment.onrender.com/items/${product?.id}`)
                 .then(res => res.json())
                 .then(data => {
                     const cartProduct = {
@@ -68,7 +68,7 @@ export const Cart = () => {
                         quantity: product?.quantity,
                         subtotal: `${data?.price * product?.quantity}`,
                     }
-                    fetch(`http://localhost:5000/cart`, {
+                    fetch(`https://react-assignment.onrender.com/cart`, {
                         method: 'POST',
                         headers: {
                             'content-type': 'application/json'

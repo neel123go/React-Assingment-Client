@@ -6,7 +6,7 @@ export const Checkout = () => {
     const [totalPrice, setTotalPrice] = useState();
 
     useEffect(() => {
-        fetch('http://localhost:5000/cartItems')
+        fetch('https://react-assignment.onrender.com/cartItems')
             .then(res => res.json())
             .then(data => setCartProduct(data))
     }, [cartProduct]);
