@@ -6,6 +6,7 @@ export const Cart = () => {
     const [selectedCategory, setSelectedCategory] = useState();
     const [selectedSize, setSelectedSize] = useState();
     const [searchKeyWord, setSearchKeyWord] = useState('');
+    const [selectedCart, setSelectedCart] = useState([]);
 
     // fetching all products
     useEffect(() => {
@@ -44,6 +45,10 @@ export const Cart = () => {
         setSearchKeyWord(event.target.value);
     }
 
+    const handleCart = () => {
+        console.log(selectedCart);
+    }
+
     return (
         <div className='px-20 py-5 min-h-screen'>
             <div className="navbar p-0 grid grid-cols-2 justify-between items-center">
@@ -80,7 +85,7 @@ export const Cart = () => {
                         <span className='text-neutral mr-2 text-xl'>Search: </span>
                         <input type="text" onChange={handleSearchKeyWord} className="px-2 py-3 border-none outline-none bg-zinc-300" />
                     </div>
-                    <button className="btn btn-primary rounded-none ml-3 text-base-100 font-bold w-40 h-10">Add To Cart</button>
+                    <button onClick={() => handleCart()} className="btn btn-primary rounded-none ml-3 text-base-100 font-bold w-40 h-10">Add To Cart</button>
                 </div>
             </div>
 
@@ -100,7 +105,7 @@ export const Cart = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredList.map(product => <Item key={product?._id} product={product} />)}
+                        {filteredList.map(product => <Item selectedCart={selectedCart} setSelectedCart={setSelectedCart} key={product?._id} product={product} />)}
                     </tbody>
                 </table>
             </div>
