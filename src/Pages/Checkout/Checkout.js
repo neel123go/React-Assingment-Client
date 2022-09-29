@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { CartItem } from '../../Components/CartItem';
 
 export const Checkout = () => {
@@ -53,7 +54,7 @@ export const Checkout = () => {
                                 <p className='text-secondary'>${totalPrice}</p>
                             </div>
                         </div>
-                        <button className="btn btn-full btn-secondary mt-8">PROCEED TO CHECKOUT</button>
+                        <Link to="/thankYou" className="btn btn-full btn-secondary mt-8">PROCEED TO CHECKOUT</Link>
                     </div>
                 </div>
             </div>

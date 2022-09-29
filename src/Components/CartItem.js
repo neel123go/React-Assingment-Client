@@ -10,18 +10,15 @@ export const CartItem = ({ product, setCartProduct, cartProduct, setTotalPrice }
     }, [cartProduct, setTotalPrice]);
 
     const increaseQty = (id) => {
-        setCartProduct(cartProduct =>
-            cartProduct.map((item) =>
-                id === item?._id ? { ...item, quantity: parseInt(item?.quantity) + 1 } : item
-            )
-        );
+        const result = cartProduct.filter(item => (item?._id === id));
+        const newQty = parseInt(result[0].quantity) + 1;
 
         fetch(`https://react-assignment.onrender.com/cart/${id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ quantity: parseInt(product?.quantity) + 1 })
+            body: JSON.stringify({ quantity: newQty })
         })
             .then(res => res.json())
             .then(data => {
@@ -30,18 +27,15 @@ export const CartItem = ({ product, setCartProduct, cartProduct, setTotalPrice }
     };
 
     const decrementQty = (id) => {
-        setCartProduct(cartProduct =>
-            cartProduct.map((item) =>
-                id === item?._id ? { ...item, quantity: parseInt(item?.quantity) - 1 } : item
-            )
-        );
+        const result = cartProduct.filter(item => (item?._id === id));
+        const newQty = parseInt(result[0].quantity) - 1;
 
         fetch(`https://react-assignment.onrender.com/cart/${id}`, {
             method: 'PATCH',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ quantity: parseInt(product?.quantity) - 1 })
+            body: JSON.stringify({ quantity: newQty })
         })
             .then(res => res.json())
             .then(data => {
