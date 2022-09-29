@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Item } from '../../Components/Item';
 
 export const Cart = () => {
@@ -8,7 +9,7 @@ export const Cart = () => {
     const [searchKeyWord, setSearchKeyWord] = useState('');
     const [selectedCart, setSelectedCart] = useState([]);
 
-    // fetching all products
+    // fetch products
     useEffect(() => {
         fetch('http://localhost:5000/items')
             .then(res => res.json())
@@ -19,7 +20,7 @@ export const Cart = () => {
                     setProducts(filteredData);
                 }
             });
-    }, [products, selectedCategory, selectedSize, searchKeyWord]);
+    }, [products, searchKeyWord, selectedCategory, selectedSize]);
 
     function getFilteredProduct() {
         if (!selectedSize && !selectedCategory) {
@@ -33,18 +34,19 @@ export const Cart = () => {
 
     let filteredList = useMemo(getFilteredProduct, [selectedCategory, selectedSize, products]);
 
-    function handleCategoryChange(event) {
+    const handleCategoryChange = (event) => {
         setSelectedCategory(event.target.value);
     }
 
-    function handleSizeChange(event) {
+    const handleSizeChange = (event) => {
         setSelectedSize(event.target.value);
     }
 
-    function handleSearchKeyWord(event) {
+    const handleSearchKeyWord = (event) => {
         setSearchKeyWord(event.target.value);
     }
 
+    // Handle reset button
     const handleReset = () => {
         setSelectedSize('')
         setSelectedCategory('')
@@ -53,9 +55,36 @@ export const Cart = () => {
         category.selectedIndex = size.selectedIndex = 'none';
     }
 
+    // handle add to cart button
     const handleCart = () => {
-        console.log(selectedCart);
+        selectedCart.map(product => (
+            fetch(`http://localhost:5000/items/${product?.id}`)
+                .then(res => res.json())
+                .then(data => {
+                    const cartProduct = {
+                        name: data?.name,
+                        image: data?.image,
+                        price: data?.price,
+                        quantity: product?.quantity,
+                        subtotal: `${data?.price * product?.quantity}`,
+                    }
+                    fetch(`http://localhost:5000/cart`, {
+                        method: 'POST',
+                        headers: {
+                            'content-type': 'application/json'
+                        },
+                        body: JSON.stringify(cartProduct)
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.acknowledged === true) {
+                                // console.log('data added to database')
+                            }
+                        });
+                })
+        ));
     }
+
 
     return (
         <div className='px-20 py-5 min-h-screen'>
@@ -95,7 +124,7 @@ export const Cart = () => {
                         <span className='text-neutral mr-2 text-xl'>Search: </span>
                         <input type="text" onChange={handleSearchKeyWord} className="px-2 py-3 border-none outline-none bg-zinc-300" />
                     </div>
-                    <button onClick={() => handleCart()} className="btn btn-primary rounded-none ml-3 text-base-100 font-bold w-40 h-10">Add To Cart</button>
+                    <Link to='/checkout' onClick={() => handleCart()} className="btn btn-primary rounded-none ml-3 text-base-100 font-bold w-40 h-10">Add To Cart</Link>
                 </div>
             </div>
 
